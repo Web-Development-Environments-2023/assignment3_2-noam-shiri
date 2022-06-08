@@ -53,5 +53,6 @@
 -- CREATE TABLE RecipeIngredients(  
 --     recipeId int NOT NULL PRIMARY KEY COMMENT 'recipeId',
 --     ingredientName VARCHAR(255) COMMENT 'ingredientName',
+--     measuringTool VARCHAR(255) COMMENT 'measuringTool',
 --     amount double COMMENT 'amount'
 -- ) DEFAULT CHARSET UTF8 COMMENT 'newTable';
