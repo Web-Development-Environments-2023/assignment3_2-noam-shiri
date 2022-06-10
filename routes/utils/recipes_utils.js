@@ -107,22 +107,22 @@ async function getRandomRecipes(k) { //this function returns from the spooncular
  * Get recipes list from spooncular response that matches the query parameters and extract the relevant recipe data for preview
  * @param {*} recipes_info 
  */
-async function getRecipesSearch(date) { //this function returns from the spooncular api the search results for the given parameters
-    if (!date.number_)
-        date.number_=5; //default
-    searchRecipes = searchRecipesByParams(date.query_, date.cuisine_, date.diet_, date.intolerances_, date.number_);
+async function getRecipesSearch(data) { //this function returns from the spooncular api the search results for the given parameters
+    if (!data.number_)
+        data.number_=5; //default
+    searchRecipes = searchRecipesByParams(data);
     // searchRecipesWithDetails = searchRecipes.map((searchRecipes) => {})
     return searchRecipes;
 }
 
-async function searchRecipesByParams(query_, cuisine_, diet_, intolerances_, number_){
+async function searchRecipesByParams(data){
     const response = await axios.get(`${api_domain}/complexSearch` , {
         params: {
-            query: query_,
-            cuisine: cuisine_,
-            diet: diet_,
-            intolerances: intolerances_,
-            number: number_,
+            query: data.query,
+            cuisine: data.cuisine,
+            diet: data.diet,
+            intolerances: data.intolerances,
+            number: data.number,
             apiKey: process.env.spooncular_apiKey
         }
     });

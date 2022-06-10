@@ -4,23 +4,17 @@ const recipes_utils = require("./utils/recipes_utils");
 
 // router.get("/", (req, res) => res.send("im here"));
 
-// router.get("/search/:query?/:cuisine?/:diet?/:Intolerances?/:number?", async (req, res, next) => { // TO DO: get parameters in query body
-//   try{ //if amount is not written the default is 5
-//     const search_recipes = await recipes_utils.getRecipesSearch(req.params.query, req.params.cuisine, req.params.diet, req.params.Intolerances, req.params.number); 
-//     res.send(search_recipes);
-//   } catch (error){
-//     next(error);
-//   }
-// });
-
+/**
+ * This path returns a recipes details of a given search values and updates db of the user's last search
+ */
 router.put("/search/", async (req, res, next) => {
   try{ //if amount is not written the default is 5
     const data = {
-      query_: req.body.query,
-      cuisine_: req.body.cuisine,
-      diet_: req.body.diet,
-      intolerances_: req.body.intolerances,
-      number_: req.body.number
+      query: req.body.query,
+      cuisine: req.body.cuisine,
+      diet: req.body.diet,
+      intolerances: req.body.intolerances,
+      number: req.body.number
     }
     const search_recipes = await recipes_utils.getRecipesSearch(data); 
     res.send(search_recipes);
