@@ -4,6 +4,14 @@ const recipes_utils = require("./utils/recipes_utils");
 
 // router.get("/", (req, res) => res.send("im here"));
 
+router.get("/search/:query?/:cuisine?/:diet?/:Intolerances?/:number?", async (req, res, next) => { // TO DO: get parameters in query body
+  try{ //if amount is not written the default is 5
+    const search_recipes = await recipes_utils.getRecipesSearch(req.params.query, req.params.cuisine, req.params.diet, req.params.Intolerances, req.params.number); 
+    res.send(search_recipes);
+  } catch (error){
+    next(error);
+  }
+});
 
 /**
  * This path returns a full details of a recipe by its id
@@ -22,8 +30,7 @@ router.get("/information/:recipeId", async (req, res, next) => {
  */
 router.get("/random", async (req, res, next) => {
   try{
-    console.log("hello");
-    const random_3_recipes = await recipes_utils.getRandomThreeRecipes(); //need to add how many recipes needed from request
+    const random_3_recipes = await recipes_utils.getRandomThreeRecipes();
     res.send(random_3_recipes);
   } catch (error){
     next(error);
