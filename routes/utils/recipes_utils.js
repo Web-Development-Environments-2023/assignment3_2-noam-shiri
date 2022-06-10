@@ -20,6 +20,22 @@ async function getRecipeInformation(recipe_id) {
     });
 }
 
+async function getRecipesInformationMultipleIds(recipe_ids) {
+    multipleIds = "";
+    for (let i=0; i<recipe_ids.length; i++){
+        multipleIds += recipe_ids[i];
+        if (i<4){
+            multipleIds += ",";
+        }
+    }
+    return await axios.get(`${api_domain}/informationBulk`, {
+        params: {
+            ids: multipleIds,
+            apiKey: process.env.spooncular_apiKey
+        }
+    });
+}
+
 
 
 async function getRecipeDetails(recipe_id) {
@@ -110,9 +126,14 @@ async function getRandomRecipes(k) { //this function returns from the spooncular
 async function getRecipesSearch(data) { //this function returns from the spooncular api the search results for the given parameters
     if (!data.number_)
         data.number_=5; //default
-    searchRecipes = searchRecipesByParams(data);
-    // searchRecipesWithDetails = searchRecipes.map((searchRecipes) => {})
-    return searchRecipes;
+    searchRecipes = await searchRecipesByParams(data);
+    ids = [];
+    for (let i=0; i<searchRecipes.length; i++){
+        ids.push(searchRecipes[i].id);
+    }
+    searchRecipesDetails = await getRecipesInformationMultipleIds(ids)
+    //console.log(searchRecipesDetails.data);
+    return extractPreviewRecipeDetails(searchRecipesDetails.data);
 }
 
 async function searchRecipesByParams(data){
