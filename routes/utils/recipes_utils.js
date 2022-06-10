@@ -107,10 +107,10 @@ async function getRandomRecipes(k) { //this function returns from the spooncular
  * Get recipes list from spooncular response that matches the query parameters and extract the relevant recipe data for preview
  * @param {*} recipes_info 
  */
-async function getRecipesSearch(query_, cuisine_, diet_, intolerances_, number_) { //this function returns from the spooncular api the search results for the given parameters
-    if (!number_)
-        number_=5; //default
-    searchRecipes = searchRecipesByParams(query_, cuisine_, diet_, intolerances_, number_);
+async function getRecipesSearch(date) { //this function returns from the spooncular api the search results for the given parameters
+    if (!date.number_)
+        date.number_=5; //default
+    searchRecipes = searchRecipesByParams(date.query_, date.cuisine_, date.diet_, date.intolerances_, date.number_);
     // searchRecipesWithDetails = searchRecipes.map((searchRecipes) => {})
     return searchRecipes;
 }
