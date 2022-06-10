@@ -14,25 +14,25 @@ router.get("/search/:query?/:cuisine?/:diet?/:Intolerances?/:number?", async (re
 });
 
 /**
- * This path returns a full details of a recipe by its id
+ * This path returns a full details of a 3 random recipes
  */
-router.get("/information/:recipeId", async (req, res, next) => {
-  try {
-    const recipe = await recipes_utils.getRecipeDetails(req.params.recipeId);
-    res.send(recipe);
-  } catch (error) {
+ router.get("/random", async (req, res, next) => {
+  try{
+    const random_3_recipes = await recipes_utils.getRandomThreeRecipes();
+    res.send(random_3_recipes);
+  } catch (error){
     next(error);
   }
 });
 
 /**
- * This path returns a full details of a 3 random recipes
+ * This path returns a full details of a recipe by its id
  */
-router.get("/random", async (req, res, next) => {
-  try{
-    const random_3_recipes = await recipes_utils.getRandomThreeRecipes();
-    res.send(random_3_recipes);
-  } catch (error){
+router.get("/:recipeId", async (req, res, next) => {
+  try {
+    const recipe = await recipes_utils.getRecipeDetails(req.params.recipeId);
+    res.send(recipe);
+  } catch (error) {
     next(error);
   }
 });
