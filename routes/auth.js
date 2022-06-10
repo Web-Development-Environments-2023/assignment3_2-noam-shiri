@@ -31,7 +31,7 @@ router.post("/Register", async (req, res, next) => {
     );
     await DButils.execQuery(
       `INSERT INTO users VALUES ('${user_details.username}', '${user_details.firstname}', '${user_details.lastname}',
-      '${user_details.country}', '${hash_password}', '${user_details.email}', '${user_details}')`
+      '${user_details.country}', '${hash_password}', '${user_details.email}', '${user_details.profilePic}')` 
     );
     res.status(201).send({ message: "user created", success: true });
   } catch (error) {
@@ -42,9 +42,10 @@ router.post("/Register", async (req, res, next) => {
 router.post("/Login", async (req, res, next) => {
   try {
     // check that username exists
+    //console.log(req.body.username ,req.body.password  );
     const users = await DButils.execQuery("SELECT username FROM users");
     if (!users.find((x) => x.username === req.body.username))
-      throw { status: 401, message: "Username or Password incorrect" };
+      throw { status: 401, message: "Username incorrect" };
 
     // check that the password is correct
     const user = (
@@ -72,5 +73,6 @@ router.post("/Logout", function (req, res) {
   req.session.reset(); // reset the session info --> send cookie when  req.session == undefined!!
   res.send({ success: true, message: "logout succeeded" });
 });
+
 
 module.exports = router;
