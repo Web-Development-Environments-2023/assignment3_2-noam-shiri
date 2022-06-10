@@ -84,7 +84,7 @@ async function getRandomThreeRecipes() {
     let random_pool = await getRandomRecipes(3);
     let filtered_random_pool = random_pool.data.recipes.filter((random) => (random.instructions != "") && (random.image)) //validate filter?
     if (filtered_random_pool.length < 3){
-        return getRandomNumberRecipes(); //again
+        return getRandomThreeRecipes(); //again
     }
     return extractPreviewRecipeDetails([filtered_random_pool[0], filtered_random_pool[1], filtered_random_pool[2]]);
 }
