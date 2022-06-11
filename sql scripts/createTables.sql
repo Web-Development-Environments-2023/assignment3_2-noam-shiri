@@ -71,3 +71,11 @@
 --     primary key (user_id, recipe_id)
 -- ) DEFAULT CHARSET UTF8 COMMENT 'newTable';
 
+CREATE TABLE SearchRecipesByUsers(
+    user_id int NOT NULL PRIMARY KEY COMMENT 'user_id',
+    query VARCHAR(255) COMMENT 'query',
+    cuisine VARCHAR(255) COMMENT 'cuisine',
+    diet VARCHAR(255) COMMENT 'diet',
+    intolerances VARCHAR(255) COMMENT 'intolerances',
+    number int COMMENT 'number'
+) DEFAULT CHARSET UTF8 COMMENT 'newTable';

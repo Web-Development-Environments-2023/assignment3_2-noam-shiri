@@ -10,6 +10,7 @@ const recipes_utils = require("./utils/recipes_utils");
 router.put("/search/", async (req, res, next) => {
   try{ //if amount is not written the default is 5
     const data = {
+      user_id: req.session.user_id,
       query: req.body.query,
       cuisine: req.body.cuisine,
       diet: req.body.diet,
@@ -21,6 +22,10 @@ router.put("/search/", async (req, res, next) => {
   } catch (error){
     next(error);
   }
+});
+
+router.get("/search/",  async (req, res, next) => {
+  res.send( await recipes_utils.getLastUserSearch(req.session.user_id))
 });
 
 /**
@@ -49,4 +54,3 @@ router.get("/:recipe_id", async (req, res, next) => {
 });
 
 module.exports = router;
-
