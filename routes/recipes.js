@@ -25,6 +25,9 @@ router.put("/search/", async (req, res, next) => {
 });
 
 router.get("/search/",  async (req, res, next) => {
+  if (!req.session.user_id){
+    throw { status: 401, message: "Username or Password incorrect" };
+  }
   res.send( await recipes_utils.getLastUserSearch(req.session.user_id))
 });
 
