@@ -18,7 +18,7 @@ async function checkIfFavoriteRecipes(user_id,recipe_id){
 
 
 async function markAsWatched(user_id, recipe_id){
-    await DButils.execQuery(`insert into WatchedRecipes values ('${user_id}',${recipe_id}, NOW())`);
+    await DButils.execQuery(`insert into WatchedRecipes values ('${user_id}',${recipe_id}, NOW()) ON DUPLICATE KEY UPDATE watched_date=NOW()`);
 }
 
 async function get3LastWatchedRecipes(user_id){
@@ -37,12 +37,20 @@ async function saveFamilyRecipe(user_id, recipe_info){
         ${recipe_info.vegan},${recipe_info.vegetarian},${recipe_info.glutenFree},'${user_id}', true);`);
     }
 
+async function checkIfWatchedRecipes(user_id,recipe_id){
+    const isFavorite = await DButils.execQuery(`select recipe_id from WatchedRecipes where user_id='${user_id}' and recipe_id='${recipe_id}'`);
+    if (isFavorite.length>0)
+        return true;
+    return false;
+}
 
 exports.markAsFavorite = markAsFavorite;
 exports.getFavoriteRecipes = getFavoriteRecipes;
 exports.checkIfFavoriteRecipes = checkIfFavoriteRecipes;
-exports.get3LastWatchedRecipes = get3LastWatchedRecipes;
 
 exports.markAsWatched = markAsWatched;
+exports.get3LastWatchedRecipes = get3LastWatchedRecipes;
+exports.checkIfWatchedRecipes = checkIfWatchedRecipes;
+
 exports.saveFamilyRecipe = saveFamilyRecipe;
 exports.getFamilyRecipes = getFamilyRecipes;
