@@ -42,9 +42,10 @@ async function getRecipesInformationMultipleIds(recipe_ids) {
 async function getRecipeDetails(user_id,recipe_id) {
     let recipe_info = await getRecipeInformation(recipe_id);
     let { id, title, readyInMinutes, image, aggregateLikes, vegan, vegetarian, glutenFree } = recipe_info.data;
-    //let hasWatched = await user_utils.checkIfWatchedRecipes(user_id,recipe_id)
+    let hasWatched = false
     let hasFavorated = false
     if (user_id!="undefined"){
+        hasWatched= await user_utils.checkIfWatchedRecipes(user_id,recipe_id)
         hasFavorated = await user_utils.checkIfFavoriteRecipes(user_id,recipe_id)}
     return {
         id: id,
@@ -55,30 +56,37 @@ async function getRecipeDetails(user_id,recipe_id) {
         vegan: vegan,
         vegetarian: vegetarian,
         glutenFree: glutenFree,
-        //hasWatched: hasWatched,
-        hasFavorated: hasFavorated
+        hasWatched: hasWatched,
+        hasFavorited: hasFavorated
         
     }
 }
 
-async function extractPreviewRecipeDetails(recipes_info){
-    return recipes_info.map((recipes_info) => { //check each recipe
-        let data = recipes_info;
-        if (recipes_info.data){
-            data = recipes_info.data;
+async function extractPreviewRecipeDetails(user_id,recipes_info){
+    recipes=[]
+    for (const recipe_info of recipes_info){    
+        if(recipe_info){
+            const { id, title, readyInMinutes, image, aggregateLikes, vegan, vegetarian, glutenFree } = recipe_info;
+            let hasWatched = false
+            let hasFavorated = false
+            if (user_id!="undefined"){
+                hasWatched= await user_utils.checkIfWatchedRecipes(user_id,id)
+                hasFavorated = await user_utils.checkIfFavoriteRecipes(user_id,id)}
+            recipes.push({
+                id: id,
+                title: title,
+                readyInMinutes: readyInMinutes,
+                image: image,
+                popularity: aggregateLikes,
+                vegan: vegan,
+                vegetarian: vegetarian,
+                glutenFree: glutenFree,
+                hasWatched: hasWatched,
+                hasFavorited: hasFavorated
+            })
         }
-        const { id, title, readyInMinutes, image, aggregateLikes, vegan, vegetarian, glutenFree } = data;
-        return {
-            id: id,
-            title: title,
-            readyInMinutes: readyInMinutes,
-            image: image,
-            popularity: aggregateLikes,
-            vegan: vegan,
-            vegetarian: vegetarian,
-            glutenFree: glutenFree,
-        }
-    })
+    }
+    return recipes;
 }
 
 async function extractPreviewSearch(recipes_info){
@@ -143,7 +151,7 @@ async function getRecipesSearch(data) { //this function returns from the spooncu
     for (let i=0; i<searchRecipes.length; i++){
         ids.push(searchRecipes[i].id);
     }
-    return await getRecipesPreview(ids)
+    return await getRecipesPreview(data.user_id,ids)
 }
 
 async function getLastUserSearch(user_id){
@@ -165,9 +173,9 @@ async function searchRecipesByParams(data){
     return extractPreviewSearch(response.data.results);
 }
 
-async function getRecipesPreview(recipes_id){
+async function getRecipesPreview(user_id,recipes_id){
     RecipesDetails = await getRecipesInformationMultipleIds(recipes_id);
-    return await extractPreviewRecipeDetails(RecipesDetails.data);
+    return await extractPreviewRecipeDetails(user_id,RecipesDetails.data);
 }
 
 exports.getRecipeDetails = getRecipeDetails;
