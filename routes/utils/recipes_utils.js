@@ -43,10 +43,10 @@ async function getRecipeDetails(user_id,recipe_id) {
     let recipe_info = await getRecipeInformation(recipe_id);
     let { id, title, readyInMinutes, image, aggregateLikes, vegan, vegetarian, glutenFree } = recipe_info.data;
     let hasWatched = false
-    let hasFavorated = false
+    let hasFavorited = false
     if (user_id!="undefined"){
         hasWatched= await user_utils.checkIfWatchedRecipes(user_id,recipe_id)
-        hasFavorated = await user_utils.checkIfFavoriteRecipes(user_id,recipe_id)}
+        hasFavorited = await user_utils.checkIfFavoriteRecipes(user_id,recipe_id)}
     return {
         id: id,
         title: title,
@@ -57,7 +57,7 @@ async function getRecipeDetails(user_id,recipe_id) {
         vegetarian: vegetarian,
         glutenFree: glutenFree,
         hasWatched: hasWatched,
-        hasFavorited: hasFavorated
+        hasFavorited: hasFavorited
         
     }
 }
@@ -68,10 +68,10 @@ async function extractPreviewRecipeDetails(user_id,recipes_info){
         if(recipe_info){
             const { id, title, readyInMinutes, image, aggregateLikes, vegan, vegetarian, glutenFree } = recipe_info;
             let hasWatched = false
-            let hasFavorated = false
+            let hasFavorited = false
             if (user_id!="undefined"){
                 hasWatched= await user_utils.checkIfWatchedRecipes(user_id,id)
-                hasFavorated = await user_utils.checkIfFavoriteRecipes(user_id,id)}
+                hasFavorited = await user_utils.checkIfFavoriteRecipes(user_id,id)}
             recipes.push({
                 id: id,
                 title: title,
@@ -82,7 +82,7 @@ async function extractPreviewRecipeDetails(user_id,recipes_info){
                 vegetarian: vegetarian,
                 glutenFree: glutenFree,
                 hasWatched: hasWatched,
-                hasFavorited: hasFavorated
+                hasFavorited: hasFavorited
             })
         }
     }
