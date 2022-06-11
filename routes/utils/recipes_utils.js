@@ -130,15 +130,16 @@ async function getRandomRecipes(k) { //this function returns from the spooncular
  * @param {*} recipes_info 
  */
 async function getRecipesSearch(data) { //this function returns from the spooncular api the search results for the given parameters
-    if (!data.number_)
-        data.number_=5; //default
+    if (!data.number)
+        data.number=5; //default number of recipes
     searchRecipes = await searchRecipesByParams(data);
-    await DButils.execQuery(`INSERT INTO SearchRecipesByUsers
-                            VALUES
-                            (${data.user_id},'${data.query}','${data.cuisine}','${data.diet}','${data.intolerances}',${data.number})
-                            ON DUPLICATE KEY UPDATE
-                                query='${data.query}',cuisine='${data.cuisine}',diet='${data.diet}',intolerances='${data.intolerances}',number=${data.number}`);
-    ids = []; // array of all the ids of the recipes
+    if (data.user_id){
+        await DButils.execQuery(`INSERT INTO SearchRecipesByUsers VALUES
+            (${data.user_id},'${data.query}','${data.cuisine}','${data.diet}','${data.intolerances}',${data.number})
+            ON DUPLICATE KEY UPDATE
+                query='${data.query}',cuisine='${data.cuisine}',diet='${data.diet}',intolerances='${data.intolerances}',number=${data.number}`);
+    }
+        ids = []; // array of all the ids of the recipes
     for (let i=0; i<searchRecipes.length; i++){
         ids.push(searchRecipes[i].id);
     }
