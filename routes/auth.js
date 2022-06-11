@@ -30,8 +30,7 @@ router.post("/Register", async (req, res, next) => {
       parseInt(process.env.bcrypt_saltRounds)
     );
     await DButils.execQuery(
-      `INSERT INTO users VALUES ('${user_details.username}', '${user_details.firstname}', '${user_details.lastname}',
-      '${user_details.country}', '${hash_password}', '${user_details.email}', '${user_details.profilePic}')` 
+      `INSERT INTO users (username,  firstname, lastname, country, password, email, imgurl) VALUES ('${user_details.username}', '${user_details.firstname}', '${user_details.lastname}','${user_details.country}', '${hash_password}', '${user_details.email}', '${user_details.profilePic}')` 
     );
     res.status(201).send({ message: "user created", success: true });
   } catch (error) {
@@ -42,7 +41,6 @@ router.post("/Register", async (req, res, next) => {
 router.post("/Login", async (req, res, next) => {
   try {
     // check that username exists
-    //console.log(req.body.username ,req.body.password  );
     const users = await DButils.execQuery("SELECT username FROM users");
     if (!users.find((x) => x.username === req.body.username))
       throw { status: 401, message: "Username incorrect" };
@@ -70,6 +68,8 @@ router.post("/Login", async (req, res, next) => {
 });
 
 router.post("/Logout", function (req, res) {
+  if(req.session.user_id==undefined)
+    throw { status: 401, message: "You must log-in before you can log-out" };
   req.session.reset(); // reset the session info --> send cookie when  req.session == undefined!!
   res.send({ success: true, message: "logout succeeded" });
 });
