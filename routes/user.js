@@ -24,7 +24,7 @@ router.use(async function (req, res, next) {
 /**
  * This path gets body with recipeId and save this recipe in the favorites list of the logged-in user
  */
-router.post('/favorites', async (req,res,next) => {
+ router.post('/favorites', async (req,res,next) => {
   try{
     const user_id = req.session.user_id;
     const recipe_id = req.body.recipe_id;
@@ -43,6 +43,41 @@ router.get('/favorites', async (req,res,next) => {
     const user_id = req.session.user_id;
     //let favorite_recipes = {};
     const recipes_id = await user_utils.getFavoriteRecipes(user_id);
+    let recipes_id_array = [];
+    recipes_id.map((element) => recipes_id_array.push(element.recipe_id)); //extracting the recipe ids into array
+    const results = await recipe_utils.getRecipesPreview(recipes_id_array);
+    res.status(200).send(results);
+  } catch(error){
+    next(error); 
+  }
+});
+
+
+/**
+ * This path gets body with recipeId and save this recipe in the watched list of the logged-in user
+ */
+ router.post('/watched', async (req,res,next) => {
+  try{
+    const user_id = req.session.user_id;
+    const recipe_id = req.body.recipe_id;
+    var today = new Date();
+    //var watched_date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    //console.log(watched_date)
+    //const watched_date = 
+    await user_utils.markAsWatched(user_id,recipe_id);//,watched_date
+    res.status(200).send("The Recipe successfully saved as watched");
+    } catch(error){
+    next(error);
+  }
+})
+
+/**
+ * This path returns the 3 last watched recipes that were viewed by the logged-in user
+ */
+router.get('/watched', async (req,res,next) => {
+  try{
+    const user_id = req.session.user_id;
+    const recipes_id = await user_utils.get3LastWatchedRecipes(user_id);
     let recipes_id_array = [];
     recipes_id.map((element) => recipes_id_array.push(element.recipe_id)); //extracting the recipe ids into array
     const results = await recipe_utils.getRecipesPreview(recipes_id_array);
