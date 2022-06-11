@@ -9,7 +9,15 @@ async function getFavoriteRecipes(user_id){
     return recipes_id;
 }
 
+async function checkIfFavoriteRecipes(user_id,recipe_id){
+    const isFavorite = await DButils.execQuery(`select recipe_id from FavoriteRecipes where user_id='${user_id}' and recipe_id='${recipe_id}'`);
+    if (isFavorite.length>0)
+        return true;
+    return false;
+}
+
 
 
 exports.markAsFavorite = markAsFavorite;
 exports.getFavoriteRecipes = getFavoriteRecipes;
+exports.checkIfFavoriteRecipes = checkIfFavoriteRecipes;

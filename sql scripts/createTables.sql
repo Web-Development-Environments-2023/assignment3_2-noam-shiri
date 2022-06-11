@@ -36,32 +36,38 @@
 -- ) DEFAULT CHARSET UTF8 COMMENT 'newTable';
 
 -- CREATE TABLE usersFamilyRecipe(  
---     user_id int NOT NULL PRIMARY KEY COMMENT 'user_id',
---     recipe_id int COMMENT 'recipe_id'
+--     user_id int NOT NULL COMMENT 'user_id',
+--     recipe_id int COMMENT 'recipe_id',
+--     primary key (user_id, recipe_id)
 -- ) DEFAULT CHARSET UTF8 COMMENT 'newTable';
 
 -- CREATE TABLE AddedRecipes(  
---     user_id int NOT NULL PRIMARY KEY COMMENT 'user_id',
---     recipe_id int COMMENT 'recipe_id'
+--     user_id int NOT NULL COMMENT 'user_id',
+--     recipe_id int COMMENT 'recipe_id',
+--     primary key (user_id, recipe_id)
 -- ) DEFAULT CHARSET UTF8 COMMENT 'newTable';
 
 -- CREATE TABLE FavoriteRecipes(   
---     user_id int NOT NULL PRIMARY KEY COMMENT 'user_id',
---     recipe_id int COMMENT 'recipe_id'
+--     user_id int NOT NULL COMMENT 'user_id',
+--     recipe_id int COMMENT 'recipe_id',
+--     primary key (user_id, recipe_id)
 -- ) DEFAULT CHARSET UTF8 COMMENT 'newTable';
 
 -- CREATE TABLE LikedRecipes(  
---     user_id int NOT NULL PRIMARY KEY COMMENT 'user_id',
---     recipe_id int COMMENT 'recipe_id'
+--     user_id int NOT NULL COMMENT 'user_id',
+--     recipe_id int COMMENT 'recipe_id',
+--     primary key (user_id, recipe_id)
 -- ) DEFAULT CHARSET UTF8 COMMENT 'newTable';
 
 -- CREATE TABLE WatchedRecipes(  
---     user_id int NOT NULL PRIMARY KEY COMMENT 'user_id',
---     recipe_id int COMMENT 'recipe_id'
+--     user_id int NOT NULL COMMENT 'user_id',
+--     recipe_id int COMMENT 'recipe_id',
+--     primary key (user_id, recipe_id)
 -- ) DEFAULT CHARSET UTF8 COMMENT 'newTable';
 
 -- CREATE TABLE SavedRecipes(  
---     user_id int NOT NULL PRIMARY KEY COMMENT 'user_id',
---     recipe_id int COMMENT 'recipe_id'
+--     user_id int NOT NULL COMMENT 'user_id',
+--     recipe_id int COMMENT 'recipe_id',
+--     primary key (user_id, recipe_id)
 -- ) DEFAULT CHARSET UTF8 COMMENT 'newTable';
 

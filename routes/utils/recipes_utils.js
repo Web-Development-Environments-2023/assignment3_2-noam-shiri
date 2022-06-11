@@ -1,8 +1,8 @@
 const axios = require("axios");
 const { query } = require("express");
 const { param } = require("../recipes");
+const user_utils = require("./user_utils");
 const api_domain = "https://api.spoonacular.com/recipes";
-
 
 
 /*
@@ -38,10 +38,13 @@ async function getRecipesInformationMultipleIds(recipe_ids) {
 
 
 
-async function getRecipeDetails(recipe_id) {
+async function getRecipeDetails(user_id,recipe_id) {
     let recipe_info = await getRecipeInformation(recipe_id);
     let { id, title, readyInMinutes, image, aggregateLikes, vegan, vegetarian, glutenFree } = recipe_info.data;
-
+    //let hasWatched = await user_utils.checkIfWatchedRecipes(user_id,recipe_id)
+    let hasFavorated = false
+    if (user_id!="undefined"){
+        hasFavorated = await user_utils.checkIfFavoriteRecipes(user_id,recipe_id)}
     return {
         id: id,
         title: title,
@@ -51,6 +54,8 @@ async function getRecipeDetails(recipe_id) {
         vegan: vegan,
         vegetarian: vegetarian,
         glutenFree: glutenFree,
+        //hasWatched: hasWatched,
+        hasFavorated: hasFavorated
         
     }
 }
