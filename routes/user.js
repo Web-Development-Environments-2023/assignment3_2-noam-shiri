@@ -93,6 +93,7 @@ router.post('/family', async (req,res,next) => {
     const recipe_info = {
       title: req.body.title,
       readyInMinutes: req.body.readyInMinutes,
+      ingredients: req.body.ingredients,
       image: req.body.image,
       popularity: 0,
       vegan: req.body.vegan,
@@ -135,6 +136,7 @@ router.post('/added', async (req,res,next) => {
     const recipe_info = {
       title: req.body.title,
       readyInMinutes: req.body.readyInMinutes,
+      ingredients: req.body.ingredients,
       image: req.body.image,
       popularity: 0,
       vegan: req.body.vegan,
@@ -170,5 +172,18 @@ router.get('/added', async (req,res,next) => {
     next(error); 
   }
 });
+
+/**
+ * This path returns a full details of a recipe by its id
+ */
+ router.get("/:recipe_id", async (req, res, next) => {
+  try {
+    const recipe = await user_utils.getRecipeIngredients(req.params.recipe_id);
+    res.send(recipe);
+  } catch (error) {
+    next(error);
+  }
+});
+
 
 module.exports = router;

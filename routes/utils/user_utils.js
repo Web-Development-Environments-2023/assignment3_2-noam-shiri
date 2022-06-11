@@ -35,6 +35,20 @@ async function saveRecipe(user_id, recipe_info){
         (recipename, preperationTimeMinutes, picture, popularity, isVegan, isVegetarian, hasGluten, user_id, isFamilyRecipe)
         VALUES ('${recipe_info.title}','${recipe_info.readyInMinutes}','${recipe_info.image}','${recipe_info.popularity}',
         ${recipe_info.vegan},${recipe_info.vegetarian},${recipe_info.glutenFree},'${user_id}', ${recipe_info.isFamilyRecipe});`);
+    const data = await DButils.execQuery(`SELECT recipe_id FROM recipe WHERE recipe_id = @@Identity;`)
+    const recipe_id  = data[0].recipe_id
+    const ingredients = recipe_info.ingredients;
+    const fix=[];
+    for (const ingredient of ingredients){//recipe_id, ingredientName, measuringTool, amount
+        //console.log(`(`+`${recipe_id}` +`,`+`${ingredient.ingredientName}`+`,`+`${ingredient.measuringTool}`+`,`+`${ingredient.amount}`+`)`)
+        fix.push((`(`+`'${recipe_id}'` +`,`+`'${ingredient.ingredientName}'`+`,`+`'${ingredient.measuringTool}'`+`,`+`'${ingredient.amount}'`+`)`));
+        }
+    //console.log(`INSERT INTO recipeingredients (recipe_id, ingredientName, measuringTool, amount) VALUES ${fix};`)
+    await DButils.execQuery(`INSERT INTO recipeingredients (recipe_id, ingredientName, measuringTool, amount) VALUES ${fix};`);
+ }   
+
+ async function getRecipeIngredients(recipe_id){
+    return await DButils.execQuery(`SELECT * FROM recipeingredients WHERE recipe_id=${recipe_id};`);
     }
 
 async function checkIfWatchedRecipes(user_id,recipe_id){
@@ -54,3 +68,4 @@ exports.checkIfWatchedRecipes = checkIfWatchedRecipes;
 
 exports.getUserRecipes = getUserRecipes;
 exports.saveRecipe = saveRecipe;
+exports.getRecipeIngredients = getRecipeIngredients;
