@@ -87,7 +87,45 @@ router.get('/watched', async (req,res,next) => {
   }
 });
 
+router.post('/family', async (req,res,next) => {
+  try{
+    const user_id = req.session.user_id;
+    const recipe_info = {
+      title: req.body.title,
+      readyInMinutes: req.body.readyInMinutes,
+      image: req.body.image,
+      popularity: 0,
+      vegan: req.body.vegan,
+      vegetarian: req.body.vegetarian,
+      glutenFree: req.body.glutenFree //,
+      //hasWatched: req.body.hasWatched,
+      //hasFavorated: req.body.hasFavorated
+    }
+    if (user_id){
+      await user_utils.saveFamilyRecipe(user_id, recipe_info);
+      res.status(200).send("The Recipe successfully saved");
+    }
+    else{
+      res.sendStatus(401);
+    }
+    } catch(error){
+    next(error);
+  }
+})
 
-
+router.get('/family', async (req,res,next) => {
+  try{
+    const user_id = req.session.user_id;
+    if (user_id){
+      const familyRecipes = await user_utils.getFamilyRecipes(user_id);
+      res.status(200).send(familyRecipes);
+    }
+    else{
+      res.sendStatus(401);
+    }
+  } catch(error){
+    next(error); 
+  }
+});
 
 module.exports = router;
