@@ -22,7 +22,7 @@ async function getRecipeInformation(recipe_id) {
 
 async function getRecipesInformationMultipleIds(recipe_ids) {
     multipleIds = "";
-    for (let i=0; i<recipe_ids.length; i++){
+    for (let i=0; i<recipe_ids.length; i++){ // create string 
         multipleIds += recipe_ids[i];
         if (i<4){
             multipleIds += ",";
@@ -127,7 +127,7 @@ async function getRecipesSearch(data) { //this function returns from the spooncu
     if (!data.number_)
         data.number_=5; //default
     searchRecipes = await searchRecipesByParams(data);
-    ids = [];
+    ids = []; // array of all the ids of the recipes
     for (let i=0; i<searchRecipes.length; i++){
         ids.push(searchRecipes[i].id);
     }
@@ -153,3 +153,4 @@ async function searchRecipesByParams(data){
 exports.getRecipeDetails = getRecipeDetails;
 exports.getRandomThreeRecipes = getRandomThreeRecipes;
 exports.getRecipesSearch = getRecipesSearch;
+exports.getRecipesInformationMultipleIds = getRecipesInformationMultipleIds;
