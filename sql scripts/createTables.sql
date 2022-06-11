@@ -13,30 +13,32 @@
 --     imgurl VARCHAR(255) COMMENT 'img-url'
 -- ) DEFAULT CHARSET UTF8 COMMENT 'newTable';
 
-CREATE TABLE Recipe(  
-    recipe_id int NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'recipe_id',
-    recipename VARCHAR(255) COMMENT 'recipename',
-    picture VARCHAR(255) COMMENT 'picture',
-    preperationTimeMinutes int COMMENT 'preperationTimeMinutes',
-    popularity int COMMENT 'popularity',
-    category VARCHAR(255) COMMENT 'category',
-    hasGluten BOOLEAN COMMENT 'hasGluten',
-    isVegan BOOLEAN COMMENT 'hasGluten',
-    isVegetarian BOOLEAN COMMENT 'hasGluten',
-    recipeUrl VARCHAR(255) COMMENT 'recipeUrl',
-    servings int COMMENT 'servings',
-    instructions VARCHAR(255) COMMENT 'instructions',
-    recipeOwner VARCHAR(255) COMMENT 'recipeOwner',
-    timePreparedInFamily VARCHAR(255) COMMENT 'timePreparedInFamily',
-    user_id int COMMENT 'user_id',
-    isFamilyRecipe BOOLEAN COMMENT 'isFamilyRecipe'
-) DEFAULT CHARSET UTF8 COMMENT 'newTable';
+-- CREATE TABLE Recipe(  
+--     recipe_id int NOT NULL AUTO_INCREMENT COMMENT 'recipe_id',
+--     recipename VARCHAR(255) COMMENT 'recipename',
+--     picture VARCHAR(255) COMMENT 'picture',
+--     preperationTimeMinutes int COMMENT 'preperationTimeMinutes',
+--     popularity int COMMENT 'popularity',
+--     category VARCHAR(255) COMMENT 'category',
+--     hasGluten BOOLEAN COMMENT 'hasGluten',
+--     isVegan BOOLEAN COMMENT 'hasGluten',
+--     isVegetarian BOOLEAN COMMENT 'hasGluten',
+--     recipeUrl VARCHAR(255) COMMENT 'recipeUrl',
+--     servings int COMMENT 'servings',
+--     instructions VARCHAR(255) COMMENT 'instructions',
+--     recipeOwner VARCHAR(255) COMMENT 'recipeOwner',
+--     timePreparedInFamily VARCHAR(255) COMMENT 'timePreparedInFamily',
+--     user_id int COMMENT 'user_id',
+--     isFamilyRecipe BOOLEAN COMMENT 'isFamilyRecipe',
+--     primary key (recipe_id, recipename)
+-- ) DEFAULT CHARSET UTF8 COMMENT 'newTable';
 
 -- CREATE TABLE RecipeIngredients(  
---     recipe_id int NOT NULL PRIMARY KEY COMMENT 'recipe_id',
+--     recipe_id int NOT NULL COMMENT 'recipe_id',
 --     ingredientName VARCHAR(255) COMMENT 'ingredientName',
 --     measuringTool VARCHAR(255) COMMENT 'measuringTool',
---     amount double COMMENT 'amount'
+--     amount double COMMENT 'amount',
+--     primary key (recipe_id, ingredientName)
 -- ) DEFAULT CHARSET UTF8 COMMENT 'newTable';
 
 -- CREATE TABLE FavoriteRecipes(   
@@ -51,12 +53,12 @@ CREATE TABLE Recipe(
 --     primary key (user_id, recipe_id)
 -- ) DEFAULT CHARSET UTF8 COMMENT 'newTable';
 
-CREATE TABLE WatchedRecipes(  
-    user_id int NOT NULL COMMENT 'user_id',
-    recipe_id int COMMENT 'recipe_id',
-    watched_date DATETIME COMMENT 'watched_date',
-    primary key (user_id, recipe_id)
-) DEFAULT CHARSET UTF8 COMMENT 'newTable';
+-- CREATE TABLE WatchedRecipes(  
+--     user_id int NOT NULL COMMENT 'user_id',
+--     recipe_id int COMMENT 'recipe_id',
+--     watched_date DATETIME COMMENT 'watched_date',
+--     primary key (user_id, recipe_id)
+-- ) DEFAULT CHARSET UTF8 COMMENT 'newTable';
 
 -- CREATE TABLE SavedRecipes(  
 --     user_id int NOT NULL COMMENT 'user_id',
@@ -64,11 +66,11 @@ CREATE TABLE WatchedRecipes(
 --     primary key (user_id, recipe_id)
 -- ) DEFAULT CHARSET UTF8 COMMENT 'newTable';
 
-CREATE TABLE SearchRecipesByUsers(
-    user_id int NOT NULL PRIMARY KEY COMMENT 'user_id',
-    query VARCHAR(255) COMMENT 'query',
-    cuisine VARCHAR(255) COMMENT 'cuisine',
-    diet VARCHAR(255) COMMENT 'diet',
-    intolerances VARCHAR(255) COMMENT 'intolerances',
-    number int COMMENT 'number'
-) DEFAULT CHARSET UTF8 COMMENT 'newTable';
+-- CREATE TABLE SearchRecipesByUsers(
+--     user_id int NOT NULL PRIMARY KEY COMMENT 'user_id',
+--     query VARCHAR(255) COMMENT 'query',
+--     cuisine VARCHAR(255) COMMENT 'cuisine',
+--     diet VARCHAR(255) COMMENT 'diet',
+--     intolerances VARCHAR(255) COMMENT 'intolerances',
+--     number int COMMENT 'number'
+-- ) DEFAULT CHARSET UTF8 COMMENT 'newTable';
