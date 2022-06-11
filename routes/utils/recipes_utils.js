@@ -131,9 +131,7 @@ async function getRecipesSearch(data) { //this function returns from the spooncu
     for (let i=0; i<searchRecipes.length; i++){
         ids.push(searchRecipes[i].id);
     }
-    searchRecipesDetails = await getRecipesInformationMultipleIds(ids)
-    //console.log(searchRecipesDetails.data);
-    return extractPreviewRecipeDetails(searchRecipesDetails.data);
+    return await getRecipesPreview(ids)
 }
 
 async function searchRecipesByParams(data){
@@ -150,7 +148,12 @@ async function searchRecipesByParams(data){
     return extractPreviewSearch(response.data.results);
 }
 
+async function getRecipesPreview(recipes_id){
+    RecipesDetails = await getRecipesInformationMultipleIds(recipes_id);
+    return await extractPreviewRecipeDetails(RecipesDetails.data);
+}
+
 exports.getRecipeDetails = getRecipeDetails;
 exports.getRandomThreeRecipes = getRandomThreeRecipes;
 exports.getRecipesSearch = getRecipesSearch;
-exports.getRecipesInformationMultipleIds = getRecipesInformationMultipleIds;
+exports.getRecipesPreview = getRecipesPreview;
