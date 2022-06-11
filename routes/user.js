@@ -97,12 +97,13 @@ router.post('/family', async (req,res,next) => {
       popularity: 0,
       vegan: req.body.vegan,
       vegetarian: req.body.vegetarian,
-      glutenFree: req.body.glutenFree //,
+      glutenFree: req.body.glutenFree,
+      isFamilyRecipe: 1 //,
       //hasWatched: req.body.hasWatched,
       //hasFavorated: req.body.hasFavorated
     }
     if (user_id){
-      await user_utils.saveFamilyRecipe(user_id, recipe_info);
+      await user_utils.saveRecipe(user_id, recipe_info);
       res.status(200).send("The Recipe successfully saved");
     }
     else{
@@ -117,8 +118,50 @@ router.get('/family', async (req,res,next) => {
   try{
     const user_id = req.session.user_id;
     if (user_id){
-      const familyRecipes = await user_utils.getFamilyRecipes(user_id);
+      const familyRecipes = await user_utils.getUserRecipes(user_id,1);
       res.status(200).send(familyRecipes);
+    }
+    else{
+      res.sendStatus(401);
+    }
+  } catch(error){
+    next(error); 
+  }
+});
+
+router.post('/added', async (req,res,next) => {
+  try{
+    const user_id = req.session.user_id;
+    const recipe_info = {
+      title: req.body.title,
+      readyInMinutes: req.body.readyInMinutes,
+      image: req.body.image,
+      popularity: 0,
+      vegan: req.body.vegan,
+      vegetarian: req.body.vegetarian,
+      glutenFree: req.body.glutenFree,
+      isFamilyRecipe: 0 //,
+      //hasWatched: req.body.hasWatched,
+      //hasFavorated: req.body.hasFavorated
+    }
+    if (user_id){
+      await user_utils.saveRecipe(user_id, recipe_info);
+      res.status(200).send("The Recipe successfully saved");
+    }
+    else{
+      res.sendStatus(401);
+    }
+    } catch(error){
+    next(error);
+  }
+})
+
+router.get('/added', async (req,res,next) => {
+  try{
+    const user_id = req.session.user_id;
+    if (user_id){
+      const addedRecipes = await user_utils.getUserRecipes(user_id,0);
+      res.status(200).send(addedRecipes);
     }
     else{
       res.sendStatus(401);
