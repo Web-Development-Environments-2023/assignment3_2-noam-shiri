@@ -20,16 +20,16 @@ CREATE TABLE Recipe(
     preperationTimeMinutes int COMMENT 'preperationTimeMinutes',
     popularity int COMMENT 'popularity',
     category VARCHAR(255) COMMENT 'category',
-    hasGluten BIT COMMENT 'hasGluten',
-    isVegan BIT COMMENT 'hasGluten',
-    isVegetarian BIT COMMENT 'hasGluten',
+    hasGluten BOOLEAN COMMENT 'hasGluten',
+    isVegan BOOLEAN COMMENT 'hasGluten',
+    isVegetarian BOOLEAN COMMENT 'hasGluten',
     recipeUrl VARCHAR(255) COMMENT 'recipeUrl',
     servings int COMMENT 'servings',
     instructions VARCHAR(255) COMMENT 'instructions',
     recipeOwner VARCHAR(255) COMMENT 'recipeOwner',
     timePreparedInFamily VARCHAR(255) COMMENT 'timePreparedInFamily',
     user_id int COMMENT 'user_id',
-    isFamilyRecipe BIT COMMENT 'isFamilyRecipe'
+    isFamilyRecipe BOOLEAN COMMENT 'isFamilyRecipe'
 ) DEFAULT CHARSET UTF8 COMMENT 'newTable';
 
 -- CREATE TABLE RecipeIngredients(  
@@ -37,12 +37,6 @@ CREATE TABLE Recipe(
 --     ingredientName VARCHAR(255) COMMENT 'ingredientName',
 --     measuringTool VARCHAR(255) COMMENT 'measuringTool',
 --     amount double COMMENT 'amount'
--- ) DEFAULT CHARSET UTF8 COMMENT 'newTable';
-
--- CREATE TABLE AddedRecipes(  
---     user_id int NOT NULL COMMENT 'user_id',
---     recipe_id int COMMENT 'recipe_id',
---     primary key (user_id, recipe_id)
 -- ) DEFAULT CHARSET UTF8 COMMENT 'newTable';
 
 -- CREATE TABLE FavoriteRecipes(   
