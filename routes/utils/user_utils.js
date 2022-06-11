@@ -9,7 +9,7 @@ async function getFavoriteRecipes(user_id){
     return recipes_id;
 }
 
-//UserAndrecipe username  recipeId HasWatched HasSaved HasLiked
+
 
 exports.markAsFavorite = markAsFavorite;
 exports.getFavoriteRecipes = getFavoriteRecipes;
