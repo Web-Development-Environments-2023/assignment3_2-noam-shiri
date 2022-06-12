@@ -109,8 +109,9 @@ router.get('/watched', async (req,res,next) => {
 
 router.post('/family', async (req,res,next) => {
   try{
-    const user_id = req.session.user_id;
-    const recipe_info = {
+    if (req.session && req.session.user_id) {
+      const user_id = req.session.user_id;
+      const recipe_info = {
       title: req.body.title,
       readyInMinutes: req.body.readyInMinutes,
       ingredients: req.body.ingredients,
@@ -123,12 +124,10 @@ router.post('/family', async (req,res,next) => {
       //hasWatched: req.body.hasWatched,
       //hasFavorated: req.body.hasFavorated
     }
-    if (user_id){
       await user_utils.saveRecipe(user_id, recipe_info);
       res.status(200).send("The Recipe successfully saved");
-    }
-    else{
-      res.sendStatus(401);
+    }else{
+      throw { status: 401, message: "Only logged-in users can add family recipes" };
     }
     } catch(error){
     next(error);
@@ -137,13 +136,12 @@ router.post('/family', async (req,res,next) => {
 
 router.get('/family', async (req,res,next) => {
   try{
-    const user_id = req.session.user_id;
-    if (user_id){
+    if (req.session && req.session.user_id) {
+      const user_id = req.session.user_id;
       const familyRecipes = await user_utils.getUserRecipes(user_id,1);
       res.status(200).send(familyRecipes);
-    }
-    else{
-      res.sendStatus(401);
+    }else{
+      throw { status: 401, message: "Only logged-in users can see their family recipes" };
     }
   } catch(error){
     next(error); 
@@ -152,8 +150,9 @@ router.get('/family', async (req,res,next) => {
 
 router.post('/added', async (req,res,next) => {
   try{
-    const user_id = req.session.user_id;
-    const recipe_info = {
+    if (req.session && req.session.user_id) {
+      const user_id = req.session.user_id;
+      const recipe_info = {
       title: req.body.title,
       readyInMinutes: req.body.readyInMinutes,
       ingredients: req.body.ingredients,
@@ -166,12 +165,10 @@ router.post('/added', async (req,res,next) => {
       //hasWatched: req.body.hasWatched,
       //hasFavorated: req.body.hasFavorated
     }
-    if (user_id){
       await user_utils.saveRecipe(user_id, recipe_info);
       res.status(200).send("The Recipe successfully saved");
-    }
-    else{
-      res.sendStatus(401);
+    }else{
+      throw { status: 401, message: "Only logged-in users can add recipes" };
     }
     } catch(error){
     next(error);
@@ -180,13 +177,12 @@ router.post('/added', async (req,res,next) => {
 
 router.get('/added', async (req,res,next) => {
   try{
-    const user_id = req.session.user_id;
-    if (user_id){
+    if (req.session && req.session.user_id) {
+      const user_id = req.session.user_id;
       const addedRecipes = await user_utils.getUserRecipes(user_id,0);
       res.status(200).send(addedRecipes);
-    }
-    else{
-      res.sendStatus(401);
+    }else{
+      throw { status: 401, message: "Only logged-in users can see their recipes" };
     }
   } catch(error){
     next(error); 
