@@ -60,11 +60,6 @@
 --     primary key (user_id, recipe_id)
 -- ) DEFAULT CHARSET UTF8 COMMENT 'newTable';
 
--- CREATE TABLE SavedRecipes(  
---     user_id int NOT NULL COMMENT 'user_id',
---     recipe_id int COMMENT 'recipe_id',
---     primary key (user_id, recipe_id)
--- ) DEFAULT CHARSET UTF8 COMMENT 'newTable';
 
 -- CREATE TABLE SearchRecipesByUsers(
 --     user_id int NOT NULL PRIMARY KEY COMMENT 'user_id',
