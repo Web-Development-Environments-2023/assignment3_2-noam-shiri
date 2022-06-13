@@ -103,12 +103,12 @@ async function extractPreviewSearch(recipes_info){
  * Get3  random recipes list from spooncular response and extract the relevant recipe data for preview
  * @param {*} recipes_info 
  */
-async function getRandomThreeRecipes() { 
+async function getRandomThreeRecipes(user_id) { 
     let random_pool = await getRandomRecipes(3);
     let filtered_random_pool = random_pool.data.recipes.filter((random) => (random.instructions != "") && (random.image)) //validate filter?
     if (filtered_random_pool.length < 3)
         return getRandomThreeRecipes(); //again
-    return extractPreviewRecipeDetails([filtered_random_pool[0], filtered_random_pool[1], filtered_random_pool[2]]);
+    return extractPreviewRecipeDetails(user_id,[filtered_random_pool[0], filtered_random_pool[1], filtered_random_pool[2]]);
 }
 
 /*
