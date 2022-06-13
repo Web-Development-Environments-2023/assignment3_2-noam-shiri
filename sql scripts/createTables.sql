@@ -14,21 +14,21 @@
 -- ) DEFAULT CHARSET UTF8 COMMENT 'newTable';
 
 -- CREATE TABLE Recipe(  
---     recipe_id int NOT NULL AUTO_INCREMENT COMMENT 'recipe_id',
---     recipename VARCHAR(255) COMMENT 'recipename',
---     picture VARCHAR(255) COMMENT 'picture',
---     preperationTimeMinutes int COMMENT 'preperationTimeMinutes',
+--     id int NOT NULL AUTO_INCREMENT COMMENT 'id',
+--     title VARCHAR(255) COMMENT 'title',
+--     image VARCHAR(255) COMMENT 'image',
+--     readyInMinutes int COMMENT 'readyInMinutes',
 --     popularity int COMMENT 'popularity',
---     isGlutenFree BOOLEAN COMMENT 'isGlutenFree',
---     isVegan BOOLEAN COMMENT 'isVegan',
---     isVegetarian BOOLEAN COMMENT 'isVegetarian',
+--     glutenFree BOOLEAN COMMENT 'glutenFree',
+--     vegan BOOLEAN COMMENT 'vegan',
+--     vegetarian BOOLEAN COMMENT 'vegetarian',
 --     servings int COMMENT 'servings',
 --     instructions VARCHAR(255) COMMENT 'instructions',
 --     recipeOwner VARCHAR(255) COMMENT 'recipeOwner',
 --     timePreparedInFamily VARCHAR(255) COMMENT 'timePreparedInFamily',
 --     user_id int COMMENT 'user_id',
 --     isFamilyRecipe BOOLEAN COMMENT 'isFamilyRecipe',
---     primary key (recipe_id, recipename)
+--     primary key (id, title)
 -- ) DEFAULT CHARSET UTF8 COMMENT 'newTable';
 
 -- CREATE TABLE RecipeIngredients(  
