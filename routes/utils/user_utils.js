@@ -55,6 +55,17 @@ async function checkIfWatchedRecipes(user_id,recipe_id){
     return false;
 }
 
+    function checkRecipeInfo(recipe_info){
+        if (!recipe_info.title || recipe_info.readyInMinutes=="undefined" || !recipe_info.ingredients || !recipe_info.image || 
+            recipe_info.vegan=="undefined" || recipe_info.vegetarian=="undefined" || recipe_info.glutenFree=="undefined" || recipe_info.servings=="undefined" || !recipe_info.instructions || !recipe_info.recipeOwner || !recipe_info.timePreparedInFamily || recipe_info.isFamilyRecipe=="undefined"){
+              //if at least one of the arguments is null
+            throw { status: 400, message: "Missing parameters" };
+            }
+        if (isNaN(recipe_info.readyInMinutes) || isNaN(recipe_info.servings)|| typeof recipe_info.vegan != "boolean" || typeof recipe_info.vegetarian != "boolean" || typeof recipe_info.glutenFree != "boolean" || typeof recipe_info.isFamilyRecipe != "boolean" ){
+            throw { status: 401, message: "Wrong Input Parameter" };
+        }
+    }
+
 exports.markAsFavorite = markAsFavorite;
 exports.getFavoriteRecipes = getFavoriteRecipes;
 exports.checkIfFavoriteRecipes = checkIfFavoriteRecipes;
@@ -66,3 +77,4 @@ exports.checkIfWatchedRecipes = checkIfWatchedRecipes;
 exports.getUserRecipes = getUserRecipes;
 exports.saveRecipe = saveRecipe;
 exports.getRecipeIngredients = getRecipeIngredients;
+exports.checkRecipeInfo = checkRecipeInfo;
