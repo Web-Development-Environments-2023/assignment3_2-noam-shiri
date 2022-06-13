@@ -5,12 +5,10 @@ const DButils = require("./DButils");
 const user_utils = require("./user_utils");
 const api_domain = "https://api.spoonacular.com/recipes";
 
-
 /*
  * Get recipes list from spooncular response and extract the relevant recipe data for preview
  * @param {*} recipes_info 
  */
-
 
 async function getRecipeInformation(recipe_id) {
     return await axios.get(`${api_domain}/${recipe_id}/information`, {
@@ -37,14 +35,12 @@ async function getRecipesInformationMultipleIds(recipe_ids) {
     });
 }
 
-
-
 async function getRecipeDetails(user_id,recipe_id) {
     let recipe_info = await getRecipeInformation(recipe_id);
     let { id, title, readyInMinutes, image, aggregateLikes, vegan, vegetarian, glutenFree } = recipe_info.data;
     let hasWatched = false
     let hasFavorited = false
-    if (user_id!="undefined"){
+    if (user_id){
         hasWatched= await user_utils.checkIfWatchedRecipes(user_id,recipe_id)
         hasFavorited = await user_utils.checkIfFavoriteRecipes(user_id,recipe_id)}
     return {
@@ -58,7 +54,6 @@ async function getRecipeDetails(user_id,recipe_id) {
         glutenFree: glutenFree,
         hasWatched: hasWatched,
         hasFavorited: hasFavorited
-        
     }
 }
 
@@ -66,10 +61,10 @@ async function extractPreviewRecipeDetails(user_id,recipes_info){
     recipes=[]
     for (const recipe_info of recipes_info){    
         if(recipe_info){
-            const { id, title, readyInMinutes, image, aggregateLikes, vegan, vegetarian, glutenFree } = recipe_info;
+            const { id, title, readyInMinutes, image, aggregateLikes, vegan, vegetarian, glutenFree, includeIngredients } = recipe_info;
             let hasWatched = false
             let hasFavorited = false
-            if (user_id!="undefined"){
+            if (user_id){
                 hasWatched= await user_utils.checkIfWatchedRecipes(user_id,id)
                 hasFavorited = await user_utils.checkIfFavoriteRecipes(user_id,id)}
             recipes.push({
@@ -92,11 +87,9 @@ async function extractPreviewRecipeDetails(user_id,recipes_info){
 async function extractPreviewSearch(recipes_info){
     return recipes_info.map((recipes_info) => { //check each recipe
         let data = recipes_info;
-        if (recipes_info.data){
+        if (recipes_info.data)
             data = recipes_info.data;
-        }
         const { id, title, image, imageType } = data;
-        
         return {
             id: id,
             title: title,
@@ -113,9 +106,8 @@ async function extractPreviewSearch(recipes_info){
 async function getRandomThreeRecipes() { 
     let random_pool = await getRandomRecipes(3);
     let filtered_random_pool = random_pool.data.recipes.filter((random) => (random.instructions != "") && (random.image)) //validate filter?
-    if (filtered_random_pool.length < 3){
+    if (filtered_random_pool.length < 3)
         return getRandomThreeRecipes(); //again
-    }
     return extractPreviewRecipeDetails([filtered_random_pool[0], filtered_random_pool[1], filtered_random_pool[2]]);
 }
 
@@ -148,9 +140,8 @@ async function getRecipesSearch(data) { //this function returns from the spooncu
                 query='${data.query}',cuisine='${data.cuisine}',diet='${data.diet}',intolerances='${data.intolerances}',number=${data.number}`);
     }
         ids = []; // array of all the ids of the recipes
-    for (let i=0; i<searchRecipes.length; i++){
+    for (let i=0; i<searchRecipes.length; i++)
         ids.push(searchRecipes[i].id);
-    }
     return await getRecipesPreview(data.user_id,ids)
 }
 

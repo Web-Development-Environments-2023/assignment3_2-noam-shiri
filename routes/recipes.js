@@ -7,7 +7,7 @@ const recipes_utils = require("./utils/recipes_utils");
 /**
  * This path returns a recipes details of a given search values and updates db of the user's last search
  */
-router.put("/search/", async (req, res, next) => {
+router.put("/search", async (req, res, next) => {
   try{ //if amount is not written the default is 5
     const data = {
       user_id: req.session.user_id,
@@ -24,7 +24,7 @@ router.put("/search/", async (req, res, next) => {
   }
 });
 
-router.get("/search/",  async (req, res, next) => {
+router.get("/search",  async (req, res, next) => {
   if (!req.session.user_id){
     throw { status: 401, message: "Username or Password incorrect" };
   }
