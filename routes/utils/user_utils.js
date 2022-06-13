@@ -16,7 +16,6 @@ async function checkIfFavoriteRecipes(user_id,recipe_id){
     return false;
 }
 
-
 async function markAsWatched(user_id, recipe_id){
     await DButils.execQuery(`insert into WatchedRecipes values ('${user_id}',${recipe_id}, NOW()) ON DUPLICATE KEY UPDATE watched_date=NOW()`);
 }
