@@ -26,16 +26,18 @@ async function get3LastWatchedRecipes(user_id){
 }
 
 async function getUserRecipes(user_id,isFamilyRecipe){
-    return await DButils.execQuery(`SELECT * FROM recipe WHERE user_id=${user_id} AND isFamilyRecipe=${isFamilyRecipe};`);
+    return await DButils.execQuery(`SELECT id, title, image, readyInMinutes, popularity, glutenFree, vegan,
+            vegetarian, servings, instructions, recipeOwner, timePreparedInFamily
+         FROM recipe WHERE user_id=${user_id} AND isFamilyRecipe=${isFamilyRecipe};`);
 }
 
 async function saveRecipe(user_id, recipe_info){
     await DButils.execQuery(`INSERT INTO recipe 
-        (user_id, recipename, picture, preperationTimeMinutes, popularity, isGlutenFree, isVegan, isVegetarian, servings, instructions, recipeOwner, timePreparedInFamily, isFamilyRecipe)
+        (user_id, title, image, readyInMinutes, popularity, glutenFree, vegan, vegetarian, servings, instructions, recipeOwner, timePreparedInFamily, isFamilyRecipe)
         VALUES ('${user_id}','${recipe_info.title}','${recipe_info.image}','${recipe_info.readyInMinutes}','${recipe_info.popularity}',${recipe_info.glutenFree},
         ${recipe_info.vegan},${recipe_info.vegetarian},'${recipe_info.servings}', '${recipe_info.instructions}', '${recipe_info.recipeOwner}', '${recipe_info.timePreparedInFamily}',  ${recipe_info.isFamilyRecipe});`);
-    const data = await DButils.execQuery(`SELECT recipe_id FROM recipe WHERE recipe_id = @@Identity;`)
-    const recipe_id  = data[0].recipe_id
+    const data = await DButils.execQuery(`SELECT id FROM recipe WHERE id = @@Identity;`)
+    const recipe_id  = data[0].id
     const ingredients = recipe_info.ingredients;
     const query=[];
     for (const ingredient of ingredients){//recipe_id, ingredientName, measuringTool, amount
