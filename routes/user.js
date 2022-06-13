@@ -20,7 +20,6 @@ router.use(async function (req, res, next) {
   }
 });
 
-
 /**
  * This path gets body with recipeId and save this recipe in the favorites list of the logged-in user
  */
@@ -30,7 +29,7 @@ router.use(async function (req, res, next) {
       const user_id = req.session.user_id;
       const recipe_id = req.body.recipe_id;
       await user_utils.markAsFavorite(user_id,recipe_id);
-      res.status(200).send("The Recipe successfully saved as favorite");
+      res.status(201).send("The Recipe successfully saved as favorite");
     }
     else{
       throw { status: 401, message: "Only logged-in users can favorite a recipe" };
@@ -47,12 +46,15 @@ router.get('/favorites', async (req,res,next) => {
   try{
     if (req.session && req.session.user_id) {
       const user_id = req.session.user_id;
-      //let favorite_recipes = {};
       const recipes_id = await user_utils.getFavoriteRecipes(user_id);
-      let recipes_id_array = [];
-      recipes_id.map((element) => recipes_id_array.push(element.recipe_id)); //extracting the recipe ids into array
-      const results = await recipe_utils.getRecipesPreview(recipes_id_array);
-      res.status(200).send(results);
+      if (recipes_id.length>0){
+        let recipes_id_array = [];
+        recipes_id.map((element) => recipes_id_array.push(element.recipe_id)); //extracting the recipe ids into array
+        const results = await recipe_utils.getRecipesPreview(user_id,recipes_id_array);
+        res.status(200).send(results);
+      }
+      else
+        res.status(200).send(recipes_id);
     }
     else{
       throw { status: 401, message: "Only logged-in users can see their favorite recipes" };
@@ -62,7 +64,6 @@ router.get('/favorites', async (req,res,next) => {
   }
 });
 
-
 /**
  * This path gets body with recipeId and save this recipe in the watched list of the logged-in user
  */
@@ -71,12 +72,8 @@ router.get('/favorites', async (req,res,next) => {
     if (req.session && req.session.user_id) {
       const user_id = req.session.user_id;
       const recipe_id = req.body.recipe_id;
-      var today = new Date();
-      //var watched_date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-      //console.log(watched_date)
-      //const watched_date = 
       await user_utils.markAsWatched(user_id,recipe_id);//,watched_date
-      res.status(200).send("The Recipe successfully saved as watched");
+      res.status(201).send("The Recipe successfully saved as watched");
     }
     else{
       throw { status: 401, message: "Only logged-in users can see their mark recipes as watched" };
@@ -94,10 +91,13 @@ router.get('/watched', async (req,res,next) => {
     if (req.session && req.session.user_id) {
       const user_id = req.session.user_id;
       const recipes_id = await user_utils.get3LastWatchedRecipes(user_id);
-      let recipes_id_array = [];
-      recipes_id.map((element) => recipes_id_array.push(element.recipe_id)); //extracting the recipe ids into array
-      const results = await recipe_utils.getRecipesPreview(user_id,recipes_id_array);
-      res.status(200).send(results);
+      if (recipes_id.length>0){
+        let recipes_id_array = [];
+        recipes_id.map((element) => recipes_id_array.push(element.recipe_id)); //extracting the recipe ids into array
+        const results = await recipe_utils.getRecipesPreview(user_id,recipes_id_array);
+        res.status(200).send(results);
+      }else
+        res.status(200).send(recipes_id);
     }
     else{
       throw { status: 401, message: "Only logged-in users can see their watched recipes" };
@@ -120,12 +120,14 @@ router.post('/family', async (req,res,next) => {
       vegan: req.body.vegan,
       vegetarian: req.body.vegetarian,
       glutenFree: req.body.glutenFree,
-      isFamilyRecipe: 1 //,
-      //hasWatched: req.body.hasWatched,
-      //hasFavorated: req.body.hasFavorated
+      servings: req.body.servings,
+      instructions: req.body.instructions,
+      recipeOwner: req.body.recipeOwner,
+      timePreparedInFamily: req.body.timePreparedInFamily,
+      isFamilyRecipe: 1 
     }
       await user_utils.saveRecipe(user_id, recipe_info);
-      res.status(200).send("The Recipe successfully saved");
+      res.status(201).send("The Recipe successfully saved");
     }else{
       throw { status: 401, message: "Only logged-in users can add family recipes" };
     }
@@ -167,9 +169,8 @@ router.post('/added', async (req,res,next) => {
       timePreparedInFamily: req.body.timePreparedInFamily,
       isFamilyRecipe: 0
     }
-
       await user_utils.saveRecipe(user_id, recipe_info);
-      res.status(200).send("The Recipe successfully saved");
+      res.status(201).send("The Recipe successfully saved");
     }else{
       throw { status: 401, message: "Only logged-in users can add recipes" };
     }
@@ -203,6 +204,5 @@ router.get('/added', async (req,res,next) => {
     next(error);
   }
 });
-
 
 module.exports = router;
