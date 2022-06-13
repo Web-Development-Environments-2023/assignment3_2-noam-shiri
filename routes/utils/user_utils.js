@@ -55,6 +55,11 @@ async function checkIfWatchedRecipes(user_id,recipe_id){
     return false;
 }
 
+function checkRecipeInfo(recipe_info){
+    if (NaN(recipe_info.readyInMinutes) || NaN(recipe_info.servings) || NaN(recipe_info.popularity) || typeof recipe_info.vegan == "boolean" || typeof recipe_info.vegetarian == "boolean" || typeof recipe_info.glutenFree == "boolean" || typeof recipe_info.isFamilyRecipe == "boolean" )
+        throw { status: 401, message: "Wrong Input Parameter" };
+}
+
 exports.markAsFavorite = markAsFavorite;
 exports.getFavoriteRecipes = getFavoriteRecipes;
 exports.checkIfFavoriteRecipes = checkIfFavoriteRecipes;
@@ -66,3 +71,4 @@ exports.checkIfWatchedRecipes = checkIfWatchedRecipes;
 exports.getUserRecipes = getUserRecipes;
 exports.saveRecipe = saveRecipe;
 exports.getRecipeIngredients = getRecipeIngredients;
+exports.checkRecipeInfo = checkRecipeInfo;

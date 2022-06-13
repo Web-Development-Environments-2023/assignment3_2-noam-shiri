@@ -28,6 +28,8 @@ router.use(async function (req, res, next) {
     if (req.session && req.session.user_id) {
       const user_id = req.session.user_id;
       const recipe_id = req.body.recipe_id;
+      if (isNaN(recipe_id))
+        throw { status: 400, message: "Wrong Recipe Id" };
       await user_utils.markAsFavorite(user_id,recipe_id);
       res.status(201).send("The Recipe successfully saved as favorite");
     }
@@ -72,6 +74,8 @@ router.get('/favorites', async (req,res,next) => {
     if (req.session && req.session.user_id) {
       const user_id = req.session.user_id;
       const recipe_id = req.body.recipe_id;
+      if (isNaN(recipe_id))
+        throw { status: 400, message: "Wrong Recipe Id" };
       await user_utils.markAsWatched(user_id,recipe_id);//,watched_date
       res.status(201).send("The Recipe successfully saved as watched");
     }
@@ -124,10 +128,11 @@ router.post('/family', async (req,res,next) => {
       instructions: req.body.instructions,
       recipeOwner: req.body.recipeOwner,
       timePreparedInFamily: req.body.timePreparedInFamily,
-      isFamilyRecipe: 1 
+      isFamilyRecipe: true 
     }
-      await user_utils.saveRecipe(user_id, recipe_info);
-      res.status(201).send("The Recipe successfully saved");
+    user_utils.checkRecipeInfo(recipe_info);
+    await user_utils.saveRecipe(user_id, recipe_info);
+    res.status(201).send("The Recipe successfully saved");
     }else{
       throw { status: 401, message: "Only logged-in users can add family recipes" };
     }
@@ -167,10 +172,11 @@ router.post('/added', async (req,res,next) => {
       instructions: req.body.instructions,
       recipeOwner: req.body.recipeOwner,
       timePreparedInFamily: req.body.timePreparedInFamily,
-      isFamilyRecipe: 0
+      isFamilyRecipe: false
     }
-      await user_utils.saveRecipe(user_id, recipe_info);
-      res.status(201).send("The Recipe successfully saved");
+    user_utils.checkRecipeInfo(recipe_info);
+    await user_utils.saveRecipe(user_id, recipe_info);
+    res.status(201).send("The Recipe successfully saved");
     }else{
       throw { status: 401, message: "Only logged-in users can add recipes" };
     }
