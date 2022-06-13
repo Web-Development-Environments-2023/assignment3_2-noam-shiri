@@ -161,10 +161,13 @@ router.post('/added', async (req,res,next) => {
       vegan: req.body.vegan,
       vegetarian: req.body.vegetarian,
       glutenFree: req.body.glutenFree,
-      isFamilyRecipe: 0 //,
-      //hasWatched: req.body.hasWatched,
-      //hasFavorated: req.body.hasFavorated
+      servings: req.body.servings,
+      instructions: req.body.instructions,
+      recipeOwner: req.body.recipeOwner,
+      timePreparedInFamily: req.body.timePreparedInFamily,
+      isFamilyRecipe: 0
     }
+
       await user_utils.saveRecipe(user_id, recipe_info);
       res.status(200).send("The Recipe successfully saved");
     }else{
