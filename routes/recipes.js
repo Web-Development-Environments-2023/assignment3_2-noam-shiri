@@ -36,7 +36,8 @@ router.get("/search",  async (req, res, next) => {
  */
  router.get("/random", async (req, res, next) => {
   try{
-    const random_3_recipes = await recipes_utils.getRandomThreeRecipes();
+    const user_id = req.session.user_id;
+    const random_3_recipes = await recipes_utils.getRandomThreeRecipes(user_id);
     res.send(random_3_recipes);
   } catch (error){
     next(error);
