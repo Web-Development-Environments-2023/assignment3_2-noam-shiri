@@ -10,11 +10,11 @@ servers:
 # - url: "http://132.72.65.211"
   description: SwaggerHub API Auto Mocking hey
 tags:
-- name: Auth
+- name: auth
   description: All authentication related routes
-- name: Users
+- name: user
   description: All the user's personal app info
-- name: Recipes
+- name: recipes
   description: All reciepes general info
 paths:
   /Register:
@@ -253,7 +253,7 @@ paths:
         "201":
           description: Successful pull of all user's family recipes
         "400":
-          description: Wrong Input Parameter OR Missing Parameters
+          description: Wrong Input Parameter OR Missing Parameters OR Recipe must include ingredients
         "401":
           description: Only logged-in users can add family recipes
   /users/added:
@@ -289,7 +289,7 @@ paths:
         "201":
           description: The Recipe successfully saved
         "400":
-          description: Wrong Recipe Id
+          description: Wrong Recipe Id OR Recipe must include ingredients
         "401":
           description: Only logged-in users can add recipes OR Wrong Input Parameter
 components:
@@ -584,12 +584,12 @@ components:
           example: false
     users_watched_body:
       properties:
-        recipeId:
+        recipe_id:
           type: integer
           example: 7
     users_favorites_body:
       properties:
-        recipeId:
+        recipe_id:
           type: integer
           example: 7
     inline_response_200_2:
@@ -684,28 +684,26 @@ components:
     users_added_body:
       type: object
       properties:
-        id:
-          type: integer
-          example: 12
         title:
           type: string
           example: Cheese Cake
-        image:
-          type: string
-          example: https://cheesecake.com/photo
         readyInMinutes:
           type: integer
           example: 75
-        popularity:
-          type: integer
-          example: 358
-        glutenFree:
-          type: boolean
-          example: true
+        ingredients:
+          type: array
+          items:
+            $ref: '#/components/schemas/usersfamily_ingredients'
+        image:
+          type: string
+          example: https://cheesecake.com/photo
         vegan:
           type: boolean
           example: false
         vegetarian:
+          type: boolean
+          example: true
+        glutenFree:
           type: boolean
           example: true
         servings:
