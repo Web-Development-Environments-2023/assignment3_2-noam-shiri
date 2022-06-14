@@ -25,11 +25,15 @@ router.put("/search", async (req, res, next) => {
 });
 
 router.get("/search",  async (req, res, next) => {
-  if (!req.session.user_id){
-    throw { status: 401, message: "Username or Password incorrect" };
-  }
+  try{
+    if (!req.session.user_id){
+      throw { status: 401, message: "Only logged-in users can see their last searched recipe" };
+    }
   res.send( await recipes_utils.getLastUserSearch(req.session.user_id))
-});
+  } catch (error){
+      next(error);
+    }
+  });
 
 /**
  * This path returns a full details of a 3 random recipes

@@ -80,7 +80,7 @@ router.get('/favorites', async (req,res,next) => {
       res.status(201).send("The Recipe successfully saved as watched");
     }
     else{
-      throw { status: 401, message: "Only logged-in users can see their mark recipes as watched" };
+      throw { status: 401, message: "Only logged-in users can mark recipes as watched" };
     }
   } catch(error){
     next(error);

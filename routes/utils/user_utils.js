@@ -64,7 +64,7 @@ async function checkIfWatchedRecipes(user_id,recipe_id){
             throw { status: 400, message: "Missing parameters" };
             }
         if (isNaN(recipe_info.readyInMinutes) || isNaN(recipe_info.servings)|| typeof recipe_info.vegan != "boolean" || typeof recipe_info.vegetarian != "boolean" || typeof recipe_info.glutenFree != "boolean" || typeof recipe_info.isFamilyRecipe != "boolean" ){
-            throw { status: 401, message: "Wrong Input Parameter" };
+            throw { status: 400, message: "Wrong Input Parameter" };
         }
     }
 
