@@ -28,7 +28,7 @@ router.use(async function (req, res, next) {
     if (req.session && req.session.user_id) {
       const user_id = req.session.user_id;
       const recipe_id = req.body.recipe_id;
-      if (isisNaN(recipe_id))
+      if (isNaN(recipe_id))
         throw { status: 400, message: "Wrong Recipe Id" };
       await user_utils.markAsFavorite(user_id,recipe_id);
       res.status(201).send("The Recipe successfully saved as favorite");
@@ -74,7 +74,7 @@ router.get('/favorites', async (req,res,next) => {
     if (req.session && req.session.user_id) {
       const user_id = req.session.user_id;
       const recipe_id = req.body.recipe_id;
-      if (isisNaN(recipe_id))
+      if (isNaN(recipe_id))
         throw { status: 400, message: "Wrong Recipe Id" };
       await user_utils.markAsWatched(user_id,recipe_id);//,watched_date
       res.status(201).send("The Recipe successfully saved as watched");
