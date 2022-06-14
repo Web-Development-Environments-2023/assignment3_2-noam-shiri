@@ -68,7 +68,7 @@ router.post("/Login", async (req, res, next) => {
   }
 });
 
-router.post("/Logout", function (req, res) {
+router.post("/Logout", function (req, res, next) {
   try {
     if(req.session.user_id==undefined)
     throw { status: 401, message: "You must Log-In before you can Log-Out" };
