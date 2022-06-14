@@ -2,7 +2,7 @@ const { query } = require("express");
 const DButils = require("./DButils");
 
 async function markAsFavorite(user_id, recipe_id){
-    await DButils.execQuery(`insert into FavoriteRecipes values ('${user_id}',${recipe_id})`);
+    await DButils.execQuery(`insert IGNORE into FavoriteRecipes values ('${user_id}',${recipe_id})`);
 }
 
 async function getFavoriteRecipes(user_id){
@@ -18,7 +18,7 @@ async function checkIfFavoriteRecipes(user_id,recipe_id){
 }
 
 async function markAsWatched(user_id, recipe_id){
-    await DButils.execQuery(`insert into WatchedRecipes values ('${user_id}',${recipe_id}, NOW()) ON DUPLICATE KEY UPDATE watched_date=NOW()`);
+    await DButils.execQuery(`insert IGNORE into WatchedRecipes values ('${user_id}',${recipe_id}, NOW()) ON DUPLICATE KEY UPDATE watched_date=NOW()`);
 }
 
 async function get3LastWatchedRecipes(user_id){
@@ -48,7 +48,7 @@ async function saveRecipe(user_id, recipe_info){
     for (const ingredient of ingredients){//recipe_id, ingredientName, measuringTool, amount
         query.push((`(`+`'${recipe_id}'` +`,`+`'${ingredient.ingredientName}'`+`,`+`'${ingredient.measuringTool}'`+`,`+`'${ingredient.amount}'`+`)`));
         }
-    await DButils.execQuery(`INSERT INTO recipeingredients (recipe_id, ingredientName, measuringTool, amount) VALUES ${query};`);
+    await DButils.execQuery(`INSERT IGNORE INTO recipeingredients (recipe_id, ingredientName, measuringTool, amount) VALUES ${query};`);
  }   
 
  async function getRecipeIngredients(recipe_id){
@@ -75,6 +75,8 @@ async function checkIfWatchedRecipes(user_id,recipe_id){
             if ( !recipe_info.recipeOwner || !recipe_info.timePreparedInFamily)
                 throw { status: 400, message: "Missing parameters" };
         }
+        if (recipe_info.ingredients.length<=0 || recipe_info.ingredients.some(el => el == null))
+            throw { status: 400, message: "Recipe must include ingredients" };
     }
 
 exports.markAsFavorite = markAsFavorite;
