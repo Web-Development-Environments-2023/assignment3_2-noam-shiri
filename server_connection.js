@@ -86,7 +86,7 @@ function onError(error) {
 /**
  * Event listener for HTTP server "listening" event.
  */
-server.address("https://rps.ise.bgu.ac.il/njsw32");
+server.address("https://RecipesBySN.cs.bgu.ac.il");
 function onListening() {
 
   var addr = server.address();
