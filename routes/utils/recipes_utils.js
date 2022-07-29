@@ -37,7 +37,7 @@ async function getRecipesInformationMultipleIds(recipe_ids) {
 
 async function getRecipeDetails(user_id,recipe_id) {
     let recipe_info = await getRecipeInformation(recipe_id);
-    let { id, title, readyInMinutes, image, aggregateLikes, vegan, vegetarian, glutenFree } = recipe_info.data;
+    let { id, title, readyInMinutes, image, aggregateLikes, vegan, vegetarian, glutenFree, servings, extendedIngredients, instructions, analyzedInstructions } = recipe_info.data;
     let hasWatched = false
     let hasFavorited = false
     if (user_id){
@@ -48,12 +48,16 @@ async function getRecipeDetails(user_id,recipe_id) {
         title: title,
         readyInMinutes: readyInMinutes,
         image: image,
-        popularity: aggregateLikes,
         vegan: vegan,
         vegetarian: vegetarian,
         glutenFree: glutenFree,
+        aggregateLikes: aggregateLikes,
         hasWatched: hasWatched,
-        hasFavorited: hasFavorited
+        hasFavorited: hasFavorited,
+        servings: servings,
+        extendedIngredients: extendedIngredients,
+        instructions: instructions,
+        analyzedInstructions: analyzedInstructions
     }
 }
 

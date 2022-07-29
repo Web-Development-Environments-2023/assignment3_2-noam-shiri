@@ -5,6 +5,11 @@ async function markAsFavorite(user_id, recipe_id){
     await DButils.execQuery(`insert IGNORE into FavoriteRecipes values ('${user_id}',${recipe_id})`);
 }
 
+async function markAsNotFavorite(user_id, recipe_id){ // NEW FUNCTION TO CHECK
+    console.log(`DELETE FROM FavoriteRecipes WHERE user_id=${user_id} AND recipe_id=${recipe_id}`);
+    await DButils.execQuery(`DELETE FROM FavoriteRecipes WHERE user_id=${user_id} AND recipe_id=${recipe_id}`);
+}
+
 async function getFavoriteRecipes(user_id){
     const recipes_id = await DButils.execQuery(`select recipe_id from FavoriteRecipes where user_id='${user_id}'`);
     return recipes_id;
@@ -62,24 +67,25 @@ async function checkIfWatchedRecipes(user_id,recipe_id){
     return false;
 }
 
-    function checkRecipeInfo(recipe_info){
-        if (!recipe_info.title || recipe_info.readyInMinutes=="undefined" || !recipe_info.ingredients || !recipe_info.image || 
-            recipe_info.vegan=="undefined" || recipe_info.vegetarian=="undefined" || recipe_info.glutenFree=="undefined" || recipe_info.servings=="undefined" || !recipe_info.instructions  || recipe_info.isFamilyRecipe=="undefined"){
-              //if at least one of the arguments is null
-            throw { status: 400, message: "Missing parameters" };
-            }
-        if (isNaN(recipe_info.readyInMinutes) || isNaN(recipe_info.servings)|| typeof recipe_info.vegan != "boolean" || typeof recipe_info.vegetarian != "boolean" || typeof recipe_info.glutenFree != "boolean" || typeof recipe_info.isFamilyRecipe != "boolean" ){
-            throw { status: 400, message: "Wrong Input Parameter" };
+function checkRecipeInfo(recipe_info){
+    if (!recipe_info.title || recipe_info.readyInMinutes=="undefined" || !recipe_info.ingredients || !recipe_info.image || 
+        recipe_info.vegan=="undefined" || recipe_info.vegetarian=="undefined" || recipe_info.glutenFree=="undefined" || recipe_info.servings=="undefined" || !recipe_info.instructions  || recipe_info.isFamilyRecipe=="undefined"){
+            //if at least one of the arguments is null
+        throw { status: 400, message: "Missing parameters" };
         }
-        if (recipe_info.isFamilyRecipe){
-            if ( !recipe_info.recipeOwner || !recipe_info.timePreparedInFamily)
-                throw { status: 400, message: "Missing parameters" };
-        }
-        if (recipe_info.ingredients.length<=0 || recipe_info.ingredients.some(el => el == null))
-            throw { status: 400, message: "Recipe must include ingredients" };
+    if (isNaN(recipe_info.readyInMinutes) || isNaN(recipe_info.servings)|| typeof recipe_info.vegan != "boolean" || typeof recipe_info.vegetarian != "boolean" || typeof recipe_info.glutenFree != "boolean" || typeof recipe_info.isFamilyRecipe != "boolean" ){
+        throw { status: 400, message: "Wrong Input Parameter" };
     }
+    if (recipe_info.isFamilyRecipe){
+        if ( !recipe_info.recipeOwner || !recipe_info.timePreparedInFamily)
+            throw { status: 400, message: "Missing parameters" };
+    }
+    if (recipe_info.ingredients.length<=0 || recipe_info.ingredients.some(el => el == null))
+        throw { status: 400, message: "Recipe must include ingredients" };
+}
 
 exports.markAsFavorite = markAsFavorite;
+exports.markAsNotFavorite = markAsNotFavorite;
 exports.getFavoriteRecipes = getFavoriteRecipes;
 exports.checkIfFavoriteRecipes = checkIfFavoriteRecipes;
 

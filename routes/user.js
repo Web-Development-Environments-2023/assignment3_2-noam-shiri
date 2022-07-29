@@ -25,6 +25,7 @@ router.use(async function (req, res, next) {
  */
  router.post('/favorites', async (req,res,next) => {
   try{
+    console.log("im here");
     if (req.session && req.session.user_id) {
       const user_id = req.session.user_id;
       const recipe_id = req.body.recipe_id;
@@ -35,6 +36,28 @@ router.use(async function (req, res, next) {
     }
     else{
       throw { status: 401, message: "Only logged-in users can favorite a recipe" };
+    }
+    } catch(error){
+    next(error);
+  }
+})
+
+/* 
+ * This path removes a recipe from favorites recipes for the logged-in user
+ */
+
+router.delete('/favorites', async (req,res,next) => { // TO DO: CHECK AND ADD TO SWAGGER!!!
+  try{
+    if (req.session && req.session.user_id) {
+      const user_id = req.session.user_id;
+      const recipe_id = req.body.recipe_id;
+      if (isNaN(recipe_id))
+        throw { status: 400, message: "Wrong Recipe Id" };
+      await user_utils.markAsNotFavorite(user_id, recipe_id);
+      res.status(201).send("The Recipe successfully removed from user's favorites");
+    }
+    else{
+      throw { status: 401, message: "Only logged-in users can remove a recipe from favorite" };
     }
     } catch(error){
     next(error);
@@ -202,7 +225,7 @@ router.get('/added', async (req,res,next) => {
 /**
  * This path returns a full details of a recipe by its id
  */
- router.get("/:recipe_id", async (req, res, next) => {
+ router.get("/:recipe_id", async (req, res, next) => { // TO DO: add to swagger!!!!
   try {
     const recipe = await user_utils.getRecipeIngredients(req.params.recipe_id);
     res.send(recipe);
