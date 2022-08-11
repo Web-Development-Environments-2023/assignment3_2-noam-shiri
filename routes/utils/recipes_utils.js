@@ -23,7 +23,7 @@ async function getRecipesInformationMultipleIds(recipe_ids) {
     multipleIds = "";
     for (let i=0; i<recipe_ids.length; i++){ // create string 
         multipleIds += recipe_ids[i];
-        if (i<4){
+        if (i<recipe_ids.length-1){
             multipleIds += ",";
         }
     }
