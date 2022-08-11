@@ -13,23 +13,23 @@
 --     imgurl VARCHAR(255) COMMENT 'img-url'
 -- ) DEFAULT CHARSET UTF8 COMMENT 'newTable';
 
--- CREATE TABLE Recipe(  
---     id int NOT NULL AUTO_INCREMENT COMMENT 'id',
---     title VARCHAR(255) COMMENT 'title',
---     image VARCHAR(255) COMMENT 'image',
---     readyInMinutes int COMMENT 'readyInMinutes',
---     popularity int COMMENT 'popularity',
---     glutenFree BOOLEAN COMMENT 'glutenFree',
---     vegan BOOLEAN COMMENT 'vegan',
---     vegetarian BOOLEAN COMMENT 'vegetarian',
---     servings int COMMENT 'servings',
---     instructions VARCHAR(255) COMMENT 'instructions',
---     recipeOwner VARCHAR(255) COMMENT 'recipeOwner',
---     timePreparedInFamily VARCHAR(255) COMMENT 'timePreparedInFamily',
---     user_id int COMMENT 'user_id',
---     isFamilyRecipe BOOLEAN COMMENT 'isFamilyRecipe',
---     primary key (id, title)
--- ) DEFAULT CHARSET UTF8 COMMENT 'newTable';
+CREATE TABLE Recipe(  
+    id int NOT NULL AUTO_INCREMENT COMMENT 'id',
+    title VARCHAR(255) COMMENT 'title',
+    image VARCHAR(255) COMMENT 'image',
+    readyInMinutes int COMMENT 'readyInMinutes',
+    popularity int COMMENT 'popularity',
+    glutenFree BOOLEAN COMMENT 'glutenFree',
+    vegan BOOLEAN COMMENT 'vegan',
+    vegetarian BOOLEAN COMMENT 'vegetarian',
+    servings int COMMENT 'servings',
+    -- instructions VARCHAR(255) COMMENT 'instructions',
+    recipeOwner VARCHAR(255) COMMENT 'recipeOwner',
+    timePreparedInFamily VARCHAR(255) COMMENT 'timePreparedInFamily',
+    user_id int COMMENT 'user_id',
+    isFamilyRecipe BOOLEAN COMMENT 'isFamilyRecipe',
+    primary key (id, title)
+) DEFAULT CHARSET UTF8 COMMENT 'newTable';
 
 -- CREATE TABLE RecipeIngredients(  
 --     recipe_id int NOT NULL COMMENT 'recipe_id',
@@ -60,3 +60,11 @@
 --     intolerances VARCHAR(255) COMMENT 'intolerances',
 --     number int COMMENT 'number'
 -- ) DEFAULT CHARSET UTF8 COMMENT 'newTable';
+
+-- CREATE TABLE RecipeInstructions(  
+--     recipe_id int NOT NULL COMMENT 'recipe_id',
+--     step_index int NOT NULL COMMENT 'step_index',
+--     step_content VARCHAR(255) COMMENT 'step_content',
+--     primary key (recipe_id, step_index)
+-- ) DEFAULT CHARSET UTF8 COMMENT 'newTable';
+

@@ -1,5 +1,5 @@
 var path = require("path");
-var app = require('./app');
+var app = require('./main'); // it was app
 // var debug = require('debug')('modamedic:server');
 // var http = require('http');
 var https = require('https');
