@@ -82,7 +82,7 @@ async function getRecipeInstructions(recipe_id){
 }
 
 async function getFullRecipe(recipe_id){
-    let recipe = await DButils.execQuery(`SELECT id, title, readyInMinutes, image, vegan, vegetarian, glutenFree, popularity AS aggregateLikes, servings FROM recipe WHERE id=${recipe_id};`);
+    let recipe = await DButils.execQuery(`SELECT id, title, image, readyInMinutes, popularity AS aggregateLikes, glutenFree, vegan, vegetarian, servings , recipeOwner ,timePreparedInFamily FROM recipe WHERE id=${recipe_id};`);
     if (recipe.length>0){
         recipe[0]["extendedIngredients"] = await getRecipeIngredients(recipe_id);
         recipe[0]["instructions"] = await getRecipeInstructions(recipe_id);

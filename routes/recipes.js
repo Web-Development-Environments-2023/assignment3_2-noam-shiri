@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const recipes_utils = require("./utils/recipes_utils");
+const user_utils = require("./utils/user_utils");
 
 // router.get("/", (req, res) => res.send("im here"));
 
@@ -54,7 +55,14 @@ router.get("/search",  async (req, res, next) => {
 router.get("/:recipe_id", async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
-    const recipe = await recipes_utils.getRecipeDetails(user_id,req.params.recipe_id);
+    const isPrivateRecipe = req.isPrivateRecipe
+    if (isPrivateRecipe){
+      recipe = await user_utils.getFullRecipe(req.params.recipe_id)
+      console.log(recipe)
+      
+    }
+    else
+      recipe = await recipes_utils.getRecipeDetails(user_id,req.params.recipe_id);
     res.send(recipe);
   } catch (error) {
     next(error);
